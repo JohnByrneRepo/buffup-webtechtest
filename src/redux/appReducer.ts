@@ -11,11 +11,13 @@ import { Question } from '../types/Question';
 
 export interface QuizState {
   questions: Question[]
+  index: number
   selectedQuestion: Question
 }
 
 const initialQuizState: QuizState = {
   questions: [],
+  index: 0,
   selectedQuestion: {
     category: '',
     type: '',
@@ -47,18 +49,19 @@ function questionReduxReducer(state = initialQuizState, action) {
     case sportwebservice.Types.EDIT_QUESTION_REQUEST:
       return {
         ...state,
+        index: action.payload.index,
         selectedQuestion: state.questions[action.payload.index]
       }
     case sportwebservice.Types.UPDATE_QUESTION_REQUEST:
       return {
         ...state,
-        questions: [...state.questions].map(question => ({
+        questions: [...state.questions].map((question, index) => ({
           ...question,
-          correct_answer: action.payload.answer,
-          incorrect_answers: [question.correct_answer]
+          correct_answer: action.payload.index === index ? action.payload.answer : question.correct_answer,
+          incorrect_answers: action.payload.index === index ? [question.correct_answer]
             .concat(question.incorrect_answers || []).filter(
               question => question !== action.payload.answer
-            )
+            ) : question.incorrect_answers
         })),
       }
     default:

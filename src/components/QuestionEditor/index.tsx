@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Checkbox from '@material-ui/core/Checkbox';
 import { updateQuestionRequest } from "../../redux/actions/questionwebservice";
 
-function QuestionEditor({ dispatch, selectedQuestion }) {
+function QuestionEditor({ dispatch, selectedQuestion, index }) {
   console.log(dispatch, selectedQuestion);
   
   const [question, setQuestion] = useState(selectedQuestion);
@@ -20,7 +20,7 @@ function QuestionEditor({ dispatch, selectedQuestion }) {
   };
 
   const updateQuestion = () => {
-    dispatch(updateQuestionRequest(question, correctAnswer));
+    dispatch(updateQuestionRequest(question, correctAnswer, index));
     setQuestion({...question,
       correct_answer: correctAnswer,
       incorrect_answers: [question.correct_answer]
@@ -68,7 +68,7 @@ function QuestionEditor({ dispatch, selectedQuestion }) {
 }
 
 function mapStateToProps(state: any) {
-  return { selectedQuestion: state.quiz.selectedQuestion };
+  return { index: state.quiz.index, selectedQuestion: state.quiz.selectedQuestion };
 }
 
 export default connect(mapStateToProps)(QuestionEditor)

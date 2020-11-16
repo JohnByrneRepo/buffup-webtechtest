@@ -35,7 +35,7 @@ export const editQuestionRequest = (index: number) => ({
   payload: { index }
 });
 
-export const updateQuestionRequest = (question: Question, answer: string) => ({
+export const updateQuestionRequest = (question: Question, answer: string, index: number) => ({
   type: Types.UPDATE_QUESTION_REQUEST,
-  payload: { question, answer }
+  payload: { question, answer, index }
 });
